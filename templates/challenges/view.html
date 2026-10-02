@@ -1,0 +1,46 @@
+{% extends 'base/base.html' %}
+{% load socialaccount %}
+{% load static %}
+
+{% block title %}Logout{% endblock %}
+{% block content %}
+    {% include 'base/navbar.html' %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="h-100 p-5 bg-light border rounded-3" style="margin-top: 2%; margin-left: 4%; margin-right: 4%">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">{{ challenge.title }}</h1>
+                    <div class="card-text text-muted">{{ challenge.short_desc }}</div>
+                    <hr class="my-4">
+                    <div class="card-text">{{ challenge.description }}</div>
+                    <hr class="my-4">
+                    <div class="card-text">{{ challenge.rules }}</div>
+                </div>
+            </div>
+            <br>
+            {% if is_helper %}
+                {% if challenge.active %}
+                    <button class="btn btn-danger btn-lg float-right" formaction="{% url 'home:end' challenge.id %}">End</button>
+                    {% if challenge.team_creation_status %}
+                        <a class="btn btn-danger btn-lg float-left" href="{% url 'home:StopTeams' challenge.id %}">Stop Team Creation</a>
+                    {% else %}
+                        <a class="btn btn-success btn-lg float-left" href="{% url 'home:StartTeams' challenge.id %}">Start Team Creation</a>
+                    {% endif %}
+                    {% if challenge.submissions_status %}
+                        <a class="btn btn-danger btn-lg" href="{% url 'home:StopSubmissions' challenge.id %}">Stop Submissions</a>
+                    {% else %}
+                        <a class="btn btn-success btn-lg" href="{% url 'home:StartSubmission' challenge.id %}">Start Submissions</a>
+                    {% endif %}
+                {% else %}   {# TODO: These views. Only POST. #}
+                    <button class="btn btn-success btn-lg float-right" formaction="{% url 'home:start' challenge.id %}">Start</button>
+                {% endif %}
+            {% endif %}
+            <br>
+        </div>
+    </form>
+
+{% endblock %}
+
+

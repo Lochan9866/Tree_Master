@@ -1,0 +1,162 @@
+{# Main landing page. #}
+{% extends 'base/base.html' %}
+{% load socialaccount %}
+{% load static %}
+{% load markdownify %}
+{% load martortags %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'css/timathonHome.css' %}"/>
+    <link href="{% static 'plugins/css/resizable.min.css' %}" type="text/css" media="all" rel="stylesheet"/>
+    <link href="{% static 'plugins/css/ace.min.css' %}" type="text/css" media="all" rel="stylesheet"/>
+    <link href="{% static 'martor/css/martor.bootstrap.min.css' %}" type="text/css" media="all" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+    {% include "base/navbar.html" %}
+
+    <div class="container" style="margin-top: 2%;">
+        {% if current_challenge is None %}
+            <h1 class="display-4 text-center">There is no active timathon right now</h1>
+        {% else %}
+            <h1 class="display-4">{{ current_challenge.title }}</h1>
+            <div class="row" style="margin-right: 5px; margin-left: 5px; height: fit-content">
+                <p class="lead" style="flex: 1">{{ current_challenge.short_desc }}</p>
+                <div style="text-align: end; flex: 1">
+                    <svg style="margin-right: 2px; margin-bottom: 2px;" height="20" width="20">
+                        <circle cx="10" cy="10" r="8"
+                                fill="{% if current_challenge.status == 'NOT POSTED' %}grey{% elif current_challenge.status == 'RUNNING' %}green{% else %}red{% endif %}"></circle>
+                    </svg>
+                    {{ current_challenge.status.capitalize }}
+                </div>
+            </div>
+{#             <h5>Number of teams registered for the Timathon.</h5>#}
+{#            <div class="text-white"#}
+{#                 style="margin-top: 10px; margin-bottom: 5px; margin-right: 10px; border-radius: 20px; background-color:#232D3B;">#}
+{#                <div style="padding-left: 15px; padding-top: 10px; padding-right: 10px">{{ teams_registered }}</div>#}
+{#            </div>#}
+            <div class="buttons-grid"
+                 style="margin-right: 5px; margin-left: 5px; height: fit-content;{% if not current_challenge.team_creation_status %}grid-template-columns: repeat(5, auto);{% endif %}">
+                {% if is_challenge_host %}
+                    <a class="btn btn-danger float-right" href="{% url 'home:end' current_challenge.id %}">End</a>
+                    {% if current_challenge.team_creation_status %}
+                        <a class="btn btn-danger float-left" href="{% url 'home:StopTeams' current_challenge.id %}">Stop
+                            Team Creation</a>
+                    {% else %}
+                        <a class="btn btn-success  float-left" href="{% url 'home:StartTeams' current_challenge.id %}">Start
+                            Team Creation</a>
+                    {% endif %}
+                    {% if current_challenge.submissions_status %}
+                        <a class="btn btn-danger" href="{% url 'home:StopSubmissions' current_challenge.id %}">Stop
+                            Submissions</a>
+                    {% else %}
+                        <a class="btn btn-success" href="{% url 'home:StartSubmission' current_challenge.id %}">Start
+                            Submissions</a>
+                    {% endif %}
+                    {% if current_challenge.voting_status %}
+                        <a class="btn btn-danger" href="{% url 'home:StopVoting' current_challenge.id %}">Stop
+                            Voting</a>
+                    {% else %}
+                        <a class="btn btn-success" href="{% url 'home:StartVoting' current_challenge.id %}">Start
+                            Voting</a>
+                    {% endif %}
+
+                {% endif %}
+                {% if not current_challenge.team_creation_status and not submissions_status and not voting_status %}
+                    <a class="btn btn-info" href="{% url "timathon:submissionList" %}">View Submissions</a>
+                {% elif current_challenge.voting_status %}
+                    <a class="btn btn-info" href="{% url "timathon:submissionList" %}">View Submissions</a>
+                {% else %}
+                    {% if is_staff %}
+                        {% if not current_challenge.team_creation_status %}
+                            <a class="btn btn-info" href="{% url "timathon:submissionList" %}">View Submissions</a>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                {% if is_staff %}
+                    <a class="btn btn-info" href="{% url "timathon:Judge" %}">Judge</a>
+                {% endif %}
+            </div>
+            <hr>
+
+            <h5>Description</h5>
+            <div class="card text-white mb-3"
+                 style="margin-top: 10px; margin-bottom: 5px; margin-right: 10px; border-radius: 20px; background-color:#232D3B;">
+                <div style="padding-left: 15px; padding-top: 10px; padding-right: 10px">{{ current_challenge.description | safe_markdown }}</div>
+            </div>
+
+            <br>
+
+            <h5>Rules</h5>
+            <div class="card text-white mb-3"
+                 style="margin-top: 10px; margin-bottom: 5px; margin-right: 10px; border-radius: 20px; background-color:#232D3B;">
+                <div style="padding-left: 15px; padding-top: 10px; padding-right: 10px">
+                    <pre>{{ current_challenge.rules | markdownify }}</pre>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row" style="margin: 0">
+                <h4 style="flex: 1">Teams</h4>
+                <h5 style="text-align: end; margin-right: 10px;">{{ teams_registered }}</h5>
+                <form action="{% url 'timathon:Create_Team' %}">
+                    {% if in_team == False and current_challenge.team_creation_status %}
+                        <button type="submit" class="btn btn-success" style="color: white">Create a team
+                        </button>{% endif %}
+                </form>
+            </div>
+
+            {% if teams %}
+                <div class="teams">
+                    {% for team in page_obj %}
+                        <div class="card"
+                             style="min-width:16rem;margin: 10px;border-radius: 20px; background-color:#232D3B">
+                            <div class="card-body text-info">
+                                <h5 class="card-title text-white text-center">{{ team.name }}</h5>
+                                <div style="padding-bottom: 10px;">
+                                    {% for member in team.discord_members %}
+                                        <div class="team-member text-white">
+                                            <img style="border-radius: 50%; width: 45px" src="{{ member.avatar_url }}"
+                                                 alt="pfp">
+                                            <span>{{ member.username }}</span>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="card-body text-info text-center">
+                                        <!--                                         TODO pin button at bottom-->
+                                        <a href="{% url 'timathon:ViewTeams' team.ID %}" class="btn view-team-btn"
+                                           style="color:white;">View Team</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="pagination-local">
+    <span ><!--class="step-links">-->
+        {% if page_obj.has_previous %}
+        <a class="pagination-element" href="?page=1">&laquo;</a>
+        <a class="pagination-element" href="?page={{ page_obj.previous_page_number }}"><</a>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <a class="pagination-number" href="?page={{ num }}">{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+          <a class="pagination-element mobileHidden" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a class="pagination-element" href="?page={{ page_obj.next_page_number }}">></a>
+        <a class="pagination-element" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+      {% endif %}
+    </span>
+                </div>
+            {% else %}
+                <p>No teams registered for the code jam yet</p>
+            {% endif %}
+        {% endif %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,159 @@
+.navigation-clean-button.navbar-light .navbar-nav .nav-link:hover {
+  color: #fff;
+}
+
+.brands {
+  color: #313437;
+  background-color: #fff;
+  margin-top: 100px;
+}
+
+.brands a {
+  display: block;
+  text-align: center;
+  padding: 40px 0;
+}
+
+@media (max-width:767px) {
+  .brands a {
+    padding: 30px 0;
+  }
+}
+
+.brands a img {
+  display: inline-block;
+  margin: 10px 20px;
+  vertical-align: middle;
+}
+
+.team-boxed {
+  color: #313437;
+}
+
+.team-boxed p {
+  color: #7d8285;
+}
+
+@media (max-width:767px) {
+  .team-boxed h2 {
+    margin-bottom: 25px;
+    padding-top: 25px;
+    font-size: 24px;
+  }
+}
+
+.team-boxed .intro {
+  font-size: 16px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.team-boxed .people {
+  padding: 50px 0;
+  color: #fff;
+}
+
+.team-boxed .item {
+  text-align: center;
+}
+
+.team-boxed .item .box {
+  text-align: center;
+  padding: 30px;
+  background-color: #232d3b;
+  margin-bottom: 30px;
+  border-radius: 35px;
+}
+
+.team-boxed .item .name {
+  font-weight: bold;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: inherit;
+}
+
+.team-boxed .item .description {
+  font-size: 15px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.team-boxed .item img {
+  max-width: 160px;
+}
+
+/* ================== Timers ================= */
+
+.timer-title{
+  /* font-family: 'Lovelo Black'; */
+  color: #fafafa;
+  margin: 15px 0;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: none;
+}
+
+.timer-container{
+  display: flex;
+  grid-gap: 2rem;
+  justify-content: center;
+}
+
+.base-timer {
+  position: relative;
+  width: 8rem;
+  height: 8rem;
+  color: white; 
+}
+
+.base-timer__circle {
+  fill: none;
+  stroke: none;
+}
+
+.base-timer__path-elapsed {
+  stroke-width: 5px;
+  stroke: transparent;
+}
+
+.base-timer__path-remaining {
+  stroke-width: 5px;
+  stroke-linecap: round;
+  transform: rotate(90deg);
+  transform-origin: center;
+  transition: 1s linear all;
+  fill-rule: nonzero;
+  background-color: red;
+}
+
+.base-timer__path-remaining.green {
+  stroke: #e35522;
+}
+
+.base-timer__label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 48px;
+}
+
+@media (max-width:650px) {
+  .base-timer{
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .timer-container{
+    grid-gap: 1rem;
+  }
+
+  .base-timer__svg{
+    display: none;
+  }
+
+  .base-timer__label{
+    position: initial;
+  }
+}

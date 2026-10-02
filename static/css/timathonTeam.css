@@ -1,0 +1,133 @@
+
+
+ .team-container {
+ color:#F9F9FA;
+ font-family:Roboto;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding:15px;
+    transition: 0.3s;
+    width: 70%;
+    height: 100%;
+    border-radius: 5px;
+    box-shadow: 5px 35px 30px rgba(0,0,0,0.4);
+    background-color:#232D3B;
+}
+
+
+h2{
+padding:10px;
+}
+h3{
+padding:10px;
+}
+h5{
+padding: 10px;
+}
+h6{padding: 10px;
+}
+
+a{
+padding:10px;
+}
+
+.team-name{
+font-size:20px;
+padding: 10px;
+}
+
+
+
+.members-card {
+    color:white;
+    margin: 10px;
+    padding:10px;
+    transition: 0.3s;
+    min-width: 25%;
+    height: 100%;
+    border-radius: 20px;
+    background: #334153;
+}
+
+.members-container{
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.team-member{
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.member-pfp{
+    border-radius: 50%;
+    width: 45px;
+    margin-right: 5px;
+    margin-left: 2px
+}
+
+.invite{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width:auto;
+    height:auto;
+}
+
+.invite-text {
+    width: auto;
+    padding: 5px;
+    margin-left: 4px;
+    margin-right: 4px;
+    border-radius: 4px;
+    border-color: grey;
+    border-style: solid;
+    border-width: 2px;
+    color: white;
+    font-weight: bold;
+    background-color: transparent;
+}
+
+.invite-button {
+    cursor: pointer;
+    color:#383838;
+    background-color: #FF7746;
+    padding: 7px;
+    border-radius: 4px;
+    color: white;
+    position: relative;
+}
+
+.team-member{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width:auto;
+    height:auto;
+}
+
+@media screen and (max-width: 768px){
+    .members-card{
+        flex: 1;
+        margin-right: 20px;
+        width: 100%;
+    }
+    .invite {
+        flex-direction: column;
+    }
+    .container {
+    width: 100%;
+    border-radius: 0px;
+    }
+}
+
+
+

@@ -1,0 +1,71 @@
+{% extends 'base/base.html' %}
+{% load socialaccount %}
+{% load static %}
+
+{% block stylesheets %}
+ <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="{% static 'css/timathonTeam.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    {% include 'base/navbar.html' %}
+    <div class="team-container">
+        <center><h1 class="team-name">{{ team.name }}</h1></center>
+
+        <div class="members-container">
+<!--            <h5>Members:</h5>-->
+            {% for member in team.discord_members %}
+                <div class="members-card">
+                    <div class="team-member">
+                        <div><img class="member-pfp" src="{{ member.avatar_url }}" alt="pfp"></div>
+                        <div class="member-username>"><span>{{ member.username }}</span></div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+        
+        <center>
+        {% if user in team.members.all %}
+            <div class="invite"><div>
+                <h6>Invite members in your team: <input class="invite-text" type="text" id="invite" readonly="readonly" value="{{ invite }}"></h6></div>
+                    <div><h6><a class="btn default-btn" onclick="Copy()">Copy Invite</a></h6></div>
+            </div>
+        <br>
+        </center>
+
+        <center>
+
+            {% if challenge.submissions_status and not team.submitted%}
+                <a class="btn btn-info" style="margin-right: 10px;" href="{% url 'timathon:Submission' %}">Submit</a>
+            {% endif %}
+
+            <a class="btn btn-danger" href="{% url 'timathon:LeaveTeam' %}">Leave Team</a>
+        </center>
+            <br><br>
+            <span style="font-weight: bold; margin-top: 15px; color: #d0d0d0; padding:10px;">(Attention: If you leave the team and the team creation period is over then you will not be able to join the ongoing timathon)</span>
+        {% else %}
+            {#            <h1>vote for the team</h1> IMPLEMENT THIS WITH THE VOTING SYSTEM#}
+        {% endif %}
+    </div>
+    {% if team.submitted and user in team.members.all %}
+        <div class="team-container" style="margin-top: 25px">
+            <br>
+            <h3>Submission:</h3>
+            <a class="btn default-btn" style="background-color: #FF7746; margin-left: 10px" href="{{ submission.github_link }}">Github Repository</a>
+            <br><br>
+            <h3>Description:</h3>
+            <h6 style="margin-left: 2px">{{ submission.description }}</h6>
+
+        </div>
+    {% endif %}
+    <script type="text/javascript">
+        function Copy()
+        {
+            var invite = document.getElementById("invite");
+            invite.select();
+            invite.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+        }
+    </script>
+{% endblock %}

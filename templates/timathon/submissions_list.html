@@ -1,0 +1,47 @@
+{% extends 'base/base.html' %}
+{% load socialaccount %}
+{% load static %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'css/submissions_list.css' %}">
+{% endblock %}
+
+{% block title %}Code Jam Submission{% endblock %}
+{% block content %}
+    {% include "base/navbar.html" %}
+    <div class="containers">
+        {% for submission in submissions %}
+            <br>
+            <div class="submission-view-container">
+                <h2><b>{{ submission.team.name }}</b></h2><br>
+                <p class="text-white" style="font-size: large;">{{ submission.description }}</p><br>
+                <div>
+                   <a class="btn default-btn" href="{{ submission.github_link }}"
+                      title="{{ submission.github_link }}" target="_blank">GitHub</a>
+                   {% if submission.repl_link %}
+                      <a class="btn default-btn" target="_blank" href="{{ submission.repl_link }}" title="{{ submission.repl_link }}">Replit</a>
+                   {% endif %}
+                </div>
+                <br>
+                <div class="members-list">
+                    {% for team_member in submission.team.discord_members %}
+                        <div class="member">
+                            <img style="border-radius: 50%; width: 45px;" class="pfp" src="{{ team_member.avatar_url }}"
+                                 alt="pfp">
+                            <p style="font-weight: bold;" class="text-white title">{{ team_member.username }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if not challenge.voting_status %}
+                    <span class="text-white">Score:
+                    {% if not submission.points %}
+                        Not graded
+                    {% else %}
+                        {{ submission.points|floatformat:1 }}
+                    {% endif %}
+                    </span>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,136 @@
+pre {
+    color: white;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+    font-family: inherit;
+    font-size: inherit;
+    overflow: hidden;
+}
+
+*:not(.alert-text){
+    color: white;
+}
+
+.buttons-grid{
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    grid-gap: 10px;
+}
+
+hr{
+    background-color: #e2e2e2;
+    margin: 20px 0;
+}
+
+.teams{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width:auto;
+    height:auto;
+    margin-bottom: 50px;
+}
+
+.team-member + .team-member{
+    margin-top: 5px;
+}
+
+.view-team-btn{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    border-radius: 0 0 20px 20px;
+    background-color: #FF7746;
+}
+
+.view-team-btn:hover{
+    background-color: #e35522;
+}
+
+.btn-info:hover, .btn-info:active, .btn-info:focus {
+    color: white !important;
+}
+
+.teams > div{
+    max-width: 16rem;
+}
+
+.pagination-local {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+    padding: 4px;
+    border-radius: 3px;
+}
+
+.pagination-number{
+    text-decoration: none;
+    color: grey;
+    padding: 5px;
+    border-radius: 3px;
+    background-color: #383838;
+}
+
+.pagination-number:hover{
+    text-decoration: none;
+    color: grey;
+}
+
+.pagination-element{
+    color: white;
+    background-color: #383838;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.pagination-element:hover{
+    text-decoration: none;
+    color: white;
+    background-color: #4a4a4a;
+}
+
+@media screen and (max-width: 768px){
+    .mobileHidden {
+        display: none;
+    }
+
+    .pagination-element{
+        padding: 12px;
+    }
+
+    .pagination-number{
+        color: white;
+        padding: 12px;
+        background-color: #383838;
+    }
+
+    .pagination-number:hover{
+        color: white;
+        background-color: #4a4a4a;
+    }
+
+    .buttons-grid{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    .buttons-grid > .btn {
+        flex: 1;
+        width: 100%;
+    }
+
+    .teams > div{
+        flex: 1;
+        width: 100%;
+        margin: 15px auto !important;
+        max-width: 90%;
+    }
+    .team-member{
+        margin: 5px 0;
+    }
+}
+
